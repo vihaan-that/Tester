@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Survey Results</h1>
+  <table>
+    <tr>
+      <th>Timestamp</th>
+      <th>District</th>
+      <th>State</th>
+      <th>Year</th>
+      <th>Gender</th>
+      <th>Age Group</th>
+      <th>Education Status</th>
+      <th>Professional Profile</th>
+      <th>Causes</th>
+      <th>Number of Suicide Cases</th>
+    </tr>
+    <% surveyResults.forEach(result => { %>
+      <tr>
+        <td><%= result.timestamp %></td>
+        <td><%= result.district %></td>
+        <td><%= result.state %></td>
+        <td><%= result.year %></td>
+        <td><%= result.gender %></td>
+        <td><%= result.ageGroup %></td>
+        <td><%= result.educationStatus %></td>
+        <td><%= result.professionalProfile %></td>
+        <td>
+          <% result.causes.forEach(cause => { %>
+            <%= cause %><br>
+          <% }); %>
+        </td>
+        <td><%= result.numberOfSuicideCases %></td>
+      </tr>
+    <% }); %>
+  </table>
+</body>
+</html>
