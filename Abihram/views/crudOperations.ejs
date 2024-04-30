@@ -24,17 +24,17 @@
                     <td><%= item[i].bookname %></td>
                     <td><%= item[i].authorname %></td>
                     <td>
-                        <form action="/update/<%= item._id %>" method="POST">
+                        <form action="/update_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
                             <input type="text" name="newBookName" placeholder="Enter new book name" required>
                             <input type="text" name="newAuthorName" placeholder="Enter new author name" required>
                             <button type="submit">Update</button>
                         </form>
-                        <form action="/patch/<%= item._id %>" method="POST">
+                        <form action="/patch_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
                             <input type="text" name="newBookName" placeholder="Enter new book name">
                             <input type="text" name="newAuthorName" placeholder="Enter new author name">
                             <button type="submit">Patch</button>
                         </form>
-                        <form action="/delete/<%= item._id %>" method="POST">
+                        <form action="/delete_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
                             <button type="submit">Delete</button>
                         </form>
                     </td>

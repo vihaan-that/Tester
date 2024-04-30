@@ -75,6 +75,30 @@ app.post('/addtask', UserController.addtask);
 app.post('/removetask', UserController.removetask);
 app.post('/add_book' , ItemController.addbook);
 
+
+app.post('/update_book/:id', async (req, res) => {
+    const { newBookName, newAuthorName } = req.body;
+    await Item.updateOne({ _id: req.params.id }, { bookName: newBookName, authorName: newAuthorName });
+    res.redirect('/crudOperations');
+});
+
+app.post('/patch_book/:id', async (req, res) => {
+    const { newBookName, newAuthorName } = req.body;
+    const updateObj = {};
+    if (newBookName) updateObj.bookName = newBookName;
+    if (newAuthorName) updateObj.authorName = newAuthorName;
+    await Item.updateOne({ _id: req.params.id }, updateObj);
+    res.redirect('/crudOperations');
+});
+
+app.post('/delete_book/:id', async (req, res) => {
+    await Item.deleteOne({ _id: req.params.id });
+    res.redirect('/crudOperations');
+});
+
+
+
+
 app.get('/logout', AuthController.logout);
 
 //hello
