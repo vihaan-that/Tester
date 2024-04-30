@@ -50,8 +50,19 @@ app.get('/signup', (req, res) => {
 });
 
 app.get('/crudOperations',async (req , res) =>{
+
+    const token = req.cookies.userjwt;
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const decodedToken = jwt.verify(token, 'my_secret_code');
+    const loginDuration = Date.now() - decodedToken.loginTime;
+
+
     const item = await Item.find();
-    res.render('crudOperations', {item});
+    res.render('crudOperations', {item , time: loginDuration});
 });
 
 app.get('/todo',async (req, res) => {

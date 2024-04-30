@@ -45,7 +45,7 @@ exports.signin = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ name: user.name, role : user.role }, 'my_secret_code');
+        const token = jwt.sign({ name: user.name, role : user.role , loginTime: Date.now()  }, 'my_secret_code');
 
 
 
