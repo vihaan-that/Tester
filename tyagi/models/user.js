@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { todo } = require('node:test');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
@@ -7,29 +6,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
     password: {
         type: String,
         required: true
     },
-
-    todolist: {
-        type : [
-            {
-            type: String
-            }
-        ],
-        default: []
-    },
-    role : {
-        type : String, enum:['user','moderator','superuser'], default : 'user'
-    }
 });
-
 
 userSchema.pre('save', async function (next) {
     const user = this;

@@ -45,7 +45,7 @@ exports.signin = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ name: user.name, role : user.role }, 'my_secret_code');
+        const token = jwt.sign({ name: user.name, role : user.role , loginTime: Date.now()  }, 'my_secret_code');
 
 
 
@@ -78,7 +78,7 @@ exports.signin = async (req, res) => {
         else {
             console.log("User signed in successfully");
             res.cookie('userjwt', token, { httpOnly: true }); // Set JWT token in a cookie named 'userjwt'
-            res.redirect('/todo');
+            res.redirect('/crudOperations');
         }
 
     } catch (error) {

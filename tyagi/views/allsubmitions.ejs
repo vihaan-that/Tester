@@ -25,10 +25,12 @@
         <div>
             <h2>User <%= i + 1 %></h2>
             <p>Name: <%= users[i].name %></p>
-            <p>Email: <%= users[i].email %></p>
-            <p>Password: <%= users[i].password %></p>
+            
+
         </div>
     <% } %>
+
+    <p>Logged-in time: <%= new Date(req.user.exp * 1000).toLocaleString() %></p>
 
 </body>
 </html>

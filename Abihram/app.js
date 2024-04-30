@@ -5,8 +5,11 @@ const ejs = require('ejs');
 const jwt = require('jsonwebtoken');
 
 const User = require('./models/user');
+const Item = require('./models/item')
+
 const AuthController = require('./controllers/authController');
 const UserController = require('./controllers/userController');
+const ItemController = require('./controllers/itemContoller')
 
 const bodyParser = require('body-parser');
 
@@ -46,6 +49,22 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
+app.get('/crudOperations',async (req , res) =>{
+
+    const token = req.cookies.userjwt;
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+
+    const decodedToken = jwt.verify(token, 'my_secret_code');
+    const loginDuration = Date.now() - decodedToken.loginTime;
+
+
+    const item = await Item.find();
+    res.render('crudOperations', {item , time: loginDuration});
+});
+
 app.get('/todo',async (req, res) => {
     const token = req.cookies.userjwt;
 
@@ -65,16 +84,42 @@ app.post('/sign_up', AuthController.signup);
 app.post('/sign_in', AuthController.signin);
 app.post('/addtask', UserController.addtask);
 app.post('/removetask', UserController.removetask);
+app.post('/add_book' , ItemController.addbook);
+
+
+app.post('/update_book/:id', async (req, res) => {
+    const { newBookName, newAuthorName } = req.body;
+    await Item.updateOne({ _id: req.params.id }, { bookname: newBookName, authorname: newAuthorName });
+    res.redirect('/crudOperations');
+});
+
+app.post('/patch_book/:id', async (req, res) => {
+    const { newBookName, newAuthorName } = req.body;
+    const updateObj = {};
+    if (newBookName) updateObj.bookname = newBookName;
+    if (newAuthorName) updateObj.authorname = newAuthorName;
+    await Item.updateOne({ _id: req.params.id }, updateObj);
+    res.redirect('/crudOperations');
+});
+
+app.post('/delete_book/:id', async (req, res) => {
+    await Item.deleteOne({ _id: req.params.id });
+    res.redirect('/crudOperations');
+});
+
+
+
+
 app.get('/logout', AuthController.logout);
 
-
+//hello
 app.get('/allsubmitions', async (req, res) => {
     const users = await User.find();
     res.render('allsubmitions', { users });
 });
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2114;
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

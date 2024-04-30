@@ -1,57 +1,63 @@
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
 
-
-exports.addtask = async (req, res) => {  
-    const { task } = req.body;
-    console.log(task);
-    const token = req.cookies.userjwt;
-
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
-
-    const decodedToken = jwt.verify(token, 'my_secret_code');
-    const nameEx = decodedToken.name;
-
-    // Find the organizer using the extracted username
-    const user = await User.findOne({ name : nameEx });
-    user.todolist.push(task);
-    await user.save();
-    res.redirect('/todo');
-}
-
-exports.removetask = async (req, res) => {
+exports.createUser = async (req, res) => {
     try {
-        const { task } = req.body;
-
-        const token = req.cookies.userjwt;
-        if (!token) {
-            return res.status(401).json({ success: false, message: 'Unauthorized' });
-        }
-
-        const decodedToken = jwt.verify(token, 'my_secret_code');
-        const username = decodedToken.name;
-
-        const user = await User.findOne({ name: username });
-
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        const index = user.todolist.indexOf(task);
-
-        if (index === -1) {
-            return res.status(404).json({ success: false, message: 'Task not found in user\'s todolist' });
-        }
-
-        user.todolist.splice(index, 1);
-
-        await user.save();
-
-        res.redirect('/todo');
+        const newUser = new User(req.body);
+        await newUser.save();
+        res.status(201).json(newUser);
     } catch (error) {
-        console.error('Error removing task:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+exports.getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+exports.updateUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+exports.getAllSubmissions = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.render('allsubmitions', { users, req }); 
+    } catch (error) {
+        console.error('Error:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
