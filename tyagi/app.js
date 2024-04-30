@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-
+const port = process.env.PORT || 2070;
 
 mongoose.connect('mongodb://0.0.0.0:27017/EndLab', {
     useNewUrlParser: true,
@@ -30,7 +30,6 @@ mongoose.connect('mongodb://0.0.0.0:27017/EndLab', {
 .catch((error) => {
     console.error('Error connecting to MongoDB:', error);
 });
-
 
 app.set('view engine', 'ejs');
 
@@ -46,39 +45,18 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-app.get('/todo',async (req, res) => {
-    const token = req.cookies.userjwt;
-
-    if (!token) {
-        return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
-
-    const decodedToken = jwt.verify(token, 'my_secret_code');
-    const nameEx = decodedToken.name;
-
-    const user = await User.findOne({ name : nameEx });
-    res.render('todo', { username : user.name , todolist : user.todolist});
-});
-
-
 app.post('/sign_up', AuthController.signup);
 app.post('/sign_in', AuthController.signin);
-app.post('/addtask', UserController.addtask);
-app.post('/removetask', UserController.removetask);
 app.get('/logout', AuthController.logout);
 
+// Routes for CRUD operations
+app.post('/user', UserController.createUser);
+app.get('/user/:id', UserController.getUserById);
+app.put('/user/:id', UserController.updateUser);
+app.delete('/user/:id', UserController.deleteUser);
 
-app.get('/allsubmitions', async (req, res) => {
-    const users = await User.find();
-    res.render('allsubmitions', { users });
-});
-
-
-const port = process.env.PORT || 3000;
+app.get('/allsubmitions', AuthController.verifyToken, UserController.getAllSubmissions);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-
-
