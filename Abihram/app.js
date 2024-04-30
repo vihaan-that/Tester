@@ -119,7 +119,7 @@ app.get('/allsubmitions', async (req, res) => {
 });
 
 
-const port = process.env.PORT || 2114;
+const port = process.env.PORT || 2069;
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

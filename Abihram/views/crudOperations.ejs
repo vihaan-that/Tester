@@ -3,20 +3,77 @@
 <head>
     <title>CRUD Operations</title>
 </head>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+input[type="text"] {
+    width: 200px;
+}
+
+button {
+    background-color: #ff69b4;
+    color: white;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #ff69b4;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+</style>
 <body>
 
     <%= time %>
     <form action="/add_book" method="POST">
-        <input type="text" name="bookName" placeholder="Enter book name" required>
-        <input type="text" name="authorName" placeholder="Enter author name" required>
+        <input type="text" name="bookName" placeholder="Enter FoodItem" required>
+        <input type="text" name="authorName" placeholder="Enter Cook name" required>
         <button type="submit">Add</button>
     </form>
 
     <table>
         <thead>
             <tr>
-                <th>Book Name</th>
-                <th>Author Name</th>
+                <th>Food Item</th>
+                <th>Cook Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,13 +84,13 @@
                     <td><%= item[i].authorname %></td>
                     <td>
                         <form action="/update_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
-                            <input type="text" name="newBookName" placeholder="Enter new book name" required>
-                            <input type="text" name="newAuthorName" placeholder="Enter new author name" required>
+                            <input type="text" name="newBookName" placeholder="Enter new FoodItem" required>
+                            <input type="text" name="newAuthorName" placeholder="Enter new cook name" required>
                             <button type="submit">Update</button>
                         </form>
                         <form action="/patch_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
-                            <input type="text" name="newBookName" placeholder="Enter new book name">
-                            <input type="text" name="newAuthorName" placeholder="Enter new author name">
+                            <input type="text" name="newBookName" placeholder="Enter new FoodItem">
+                            <input type="text" name="newAuthorName" placeholder="Enter new cook name">
                             <button type="submit">Patch</button>
                         </form>
                         <form action="/delete_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
