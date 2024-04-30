@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+</head>
+<body>
+  <h1>Welcome to Your Profile</h1>
+  <h2>User Information</h2>
+  <p>User ID: <%= user.userID %></p>
+  <p>Password: <%= user.password %></p>
+
+  <h2>Update Password</h2>
+  <form id="updatePasswordForm">
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" required>
+    <br>
+    <button type="submit">Update Password</button>
+  </form>
+
+  <h2>Delete Account</h2>
+  <form id="deleteAccountForm">
+    <button type="submit">Delete Account</button>
+  </form>
+
+  <p id="message" style="color: red;"></p>
+
+  <script>
+    document.getElementById('updatePasswordForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const newPassword = document.getElementById('newPassword').value;
+
+      try {
+        const response = await fetch('/updatePassword', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ newPassword })
+        });
+
+        if (response.ok) {
+          document.getElementById('message').textContent = 'Password updated successfully!';
+        } else {
+          const data = await response.json();
+          document.getElementById('message').textContent = data.error;
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('message').textContent = 'An error occurred. Please try again later.';
+      }
+    });
+
+    document.getElementById('deleteAccountForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const confirmDelete = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+
+      if (confirmDelete) {
+        try {
+          const response = await fetch('/deleteAccount', {
+            method: 'DELETE'
+          });
+
+          if (response.ok) {
+            window.location.href = '/logout'; // Redirect to logout route
+          } else {
+            const data = await response.json();
+            document.getElementById('message').textContent = data.error;
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          document.getElementById('message').textContent = 'An error occurred. Please try again later.';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
