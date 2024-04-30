@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Operations</title>
+</head>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: 1px solid #ff0000; /* Red border */
+    border-radius: 3px;
+}
+
+input[type="text"] {
+    width: 200px;
+}
+
+button {
+    background-color: #ff0000; /* Red background */
+    color: white;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: 1px solid #ff0000; /* Red border */
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #ff0000; /* Red background */
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+h1 {
+    color: #ff0000; /* Red color for heading */
+}
+
+</style>
+<body>
+
+    <h1>
+        Active Time : <%= time/1000 +  "Seconds" %>
+
+        <br>
+        User Logged IN : <%= username %>
+</h1>
+
+
+    <form action="/add_book" method="POST">
+        <input type="text" name="bookName" placeholder="Enter College Name" required>
+        <input type="text" name="authorName" placeholder="Enter Best Teacher name" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>College Name</th>
+                <th>Best Teacher</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%  for (let i = 0; i < item.length; i++){ %>
+                <tr>
+                    <td><%= item[i].bookname %></td>
+                    <td><%= item[i].authorname %></td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <td>
+                            <form action="/update_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
+                                Update any Data :
+                                <input type="text" name="newBookName" placeholder="Enter new College Name" required>
+                                <input type="text" name="newAuthorName" placeholder="Enter new Best Teacher name" required>
+                                <button type="submit">Update</button>
+                            </form>
+                            <form action="/patch_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
+                                Patch any Data :
+
+                                <input type="text" name="newBookName" placeholder="Enter new College Name">
+                                <input type="text" name="newAuthorName" placeholder="Enter new Best Teacher name">
+                                <button type="submit">Patch</button>
+                            </form>
+                            <form action="/delete_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
+                                Delete any Data :
+
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    
+
+</body>
+</html>

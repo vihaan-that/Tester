@@ -62,7 +62,6 @@ table tr:hover {
 </style>
 <body>
 
-    <%= time %>
     <form action="/add_book" method="POST">
         <input type="text" name="bookName" placeholder="Enter FoodItem" required>
         <input type="text" name="authorName" placeholder="Enter Cook name" required>
@@ -82,24 +81,35 @@ table tr:hover {
                 <tr>
                     <td><%= item[i].bookname %></td>
                     <td><%= item[i].authorname %></td>
+                    
+                </tr>
+                <tr>
                     <td>
-                        <form action="/update_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
-                            <input type="text" name="newBookName" placeholder="Enter new FoodItem" required>
-                            <input type="text" name="newAuthorName" placeholder="Enter new cook name" required>
-                            <button type="submit">Update</button>
-                        </form>
-                        <form action="/patch_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
-                            <input type="text" name="newBookName" placeholder="Enter new FoodItem">
-                            <input type="text" name="newAuthorName" placeholder="Enter new cook name">
-                            <button type="submit">Patch</button>
-                        </form>
-                        <form action="/delete_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
-                            <button type="submit">Delete</button>
-                        </form>
+                        <td>
+                            <form action="/update_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
+                                <input type="text" name="newBookName" placeholder="Enter new FoodItem" required>
+                                <input type="text" name="newAuthorName" placeholder="Enter new cook name" required>
+                                <button type="submit">Update</button>
+                            </form>
+                            <form action="/patch_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
+                                <input type="text" name="newBookName" placeholder="Enter new FoodItem">
+                                <input type="text" name="newAuthorName" placeholder="Enter new cook name">
+                                <button type="submit">Patch</button>
+                            </form>
+                            <form action="/delete_book/<%= item[i]._id %>" method="POST"> <!-- Corrected form action -->
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
                     </td>
                 </tr>
             <% } %>
         </tbody>
     </table>
+
+    <h1>
+        Logged in time : 
+</h1>
+<%= time/1000 +  "Seconds" %>
+
 </body>
 </html>

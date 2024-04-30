@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Form</title>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ff0000; /* Red color for heading */
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ff0000; /* Red color for labels */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ff0000; /* Red border for inputs */
+    border-radius: 3px;
+}
+
+input[type="submit"] {
+    background-color: #ff0000; /* Red background for submit button */
+    color: white;
+    cursor: pointer;
+}
+
+a {
+    color: #ff0000; /* Red color for links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+</style>
+<body>
+    <h1>Sign In</h1>
+    <form action="/sign_in" method="POST">
+        <label for="name">Roll-Number:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <a href="/signup">Sign Up</a>
+</body>
+</html>
