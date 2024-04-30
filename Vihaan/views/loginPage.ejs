@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form action="/login" method="POST">
+      <label for="userID">userID:</label>
+      <input type="text" id="userID" name="userID" required />
+      <br />
+      <label for="Password">Password:</label>
+      <input type="password" id="Password" name="Password" required />
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required />
+    <br />
+    <input type="submit" value="Sign Up" />
+     
+    </form>
+  </body>
+  <script src="../controllers/signupController.js"></script>
+</html>
