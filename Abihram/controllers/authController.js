@@ -78,7 +78,7 @@ exports.signin = async (req, res) => {
         else {
             console.log("User signed in successfully");
             res.cookie('userjwt', token, { httpOnly: true }); // Set JWT token in a cookie named 'userjwt'
-            res.redirect('/todo');
+            res.redirect('/crudOperations');
         }
 
     } catch (error) {

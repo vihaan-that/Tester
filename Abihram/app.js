@@ -5,8 +5,11 @@ const ejs = require('ejs');
 const jwt = require('jsonwebtoken');
 
 const User = require('./models/user');
+const Item = require('./models/item')
+
 const AuthController = require('./controllers/authController');
 const UserController = require('./controllers/userController');
+const ItemController = require('./controllers/itemContoller')
 
 const bodyParser = require('body-parser');
 
@@ -46,6 +49,11 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
+app.get('/crudOperations',async (req , res) =>{
+    const item = await Item.find();
+    res.render('crudOperations', {item});
+});
+
 app.get('/todo',async (req, res) => {
     const token = req.cookies.userjwt;
 
@@ -65,6 +73,8 @@ app.post('/sign_up', AuthController.signup);
 app.post('/sign_in', AuthController.signin);
 app.post('/addtask', UserController.addtask);
 app.post('/removetask', UserController.removetask);
+app.post('/add_book' , ItemController.addbook);
+
 app.get('/logout', AuthController.logout);
 
 //hello
@@ -74,7 +84,7 @@ app.get('/allsubmitions', async (req, res) => {
 });
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2114;
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

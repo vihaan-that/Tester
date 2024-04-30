@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Operations</title>
+</head>
+<body>
+    <form action="/add_book" method="POST">
+        <input type="text" name="bookName" placeholder="Enter book name" required>
+        <input type="text" name="authorName" placeholder="Enter author name" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%  for (let i = 0; i < item.length; i++){ %>
+                <tr>
+                    <td><%= item[i].bookname %></td>
+                    <td><%= item[i].authorname %></td>
+                    <td>
+                        <form action="/update/<%= item._id %>" method="POST">
+                            <input type="text" name="newBookName" placeholder="Enter new book name" required>
+                            <input type="text" name="newAuthorName" placeholder="Enter new author name" required>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="/patch/<%= item._id %>" method="POST">
+                            <input type="text" name="newBookName" placeholder="Enter new book name">
+                            <input type="text" name="newAuthorName" placeholder="Enter new author name">
+                            <button type="submit">Patch</button>
+                        </form>
+                        <form action="/delete/<%= item._id %>" method="POST">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>
