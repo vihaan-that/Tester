@@ -78,15 +78,15 @@ app.post('/add_book' , ItemController.addbook);
 
 app.post('/update_book/:id', async (req, res) => {
     const { newBookName, newAuthorName } = req.body;
-    await Item.updateOne({ _id: req.params.id }, { bookName: newBookName, authorName: newAuthorName });
+    await Item.updateOne({ _id: req.params.id }, { bookname: newBookName, authorname: newAuthorName });
     res.redirect('/crudOperations');
 });
 
 app.post('/patch_book/:id', async (req, res) => {
     const { newBookName, newAuthorName } = req.body;
     const updateObj = {};
-    if (newBookName) updateObj.bookName = newBookName;
-    if (newAuthorName) updateObj.authorName = newAuthorName;
+    if (newBookName) updateObj.bookname = newBookName;
+    if (newAuthorName) updateObj.authorname = newAuthorName;
     await Item.updateOne({ _id: req.params.id }, updateObj);
     res.redirect('/crudOperations');
 });
