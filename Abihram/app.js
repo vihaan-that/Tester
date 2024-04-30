@@ -67,7 +67,7 @@ app.post('/addtask', UserController.addtask);
 app.post('/removetask', UserController.removetask);
 app.get('/logout', AuthController.logout);
 
-
+//hello
 app.get('/allsubmitions', async (req, res) => {
     const users = await User.find();
     res.render('allsubmitions', { users });
